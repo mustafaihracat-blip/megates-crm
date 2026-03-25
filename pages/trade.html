@@ -1,0 +1,84 @@
+<div class="stat-grid" id="tradeStats"></div>
+<div class="charts-row">
+  <div class="chart-card">
+    <h3>Nijerya Güç Trafosu Şipman Büyümesi</h3>
+    <div class="src">📌 Volza Trade Data</div>
+    <div class="chart-wrap"><canvas id="cGrowth"></canvas></div>
+  </div>
+  <div class="chart-card">
+    <h3>HS Kodu Bazında Büyüme Karşılaştırması (%)</h3>
+    <div class="src">📌 Volza + UN Comtrade</div>
+    <div class="chart-wrap"><canvas id="cGrowthBar"></canvas></div>
+  </div>
+</div>
+<div class="sec">Megates Ürünleri — HS Kodu & Gümrük Bilgisi</div>
+<div class="tcard">
+  <table>
+    <thead><tr><th>Ürün</th><th>HS Kodu</th><th>2023 İthalat</th><th>Gümrük</th><th>Rakipler</th></tr></thead>
+    <tbody id="urunListesi"></tbody>
+  </table>
+</div>
+<div class="irow">
+  <div class="icard"><h3>📊 Rakip Analizi</h3>
+    <div class="ii"><div class="dot" style="background:#e74c3c"></div><p>Çin: <b>%51 pay</b> — ucuz ama kalite şikayetleri artıyor</p></div>
+    <div class="ii"><div class="dot" style="background:#e74c3c"></div><p>Almanya: <b>%12</b> — Siemens/ABB, çok pahalı</p></div>
+    <div class="ii"><div class="dot" style="background:#f0b429"></div><p>Türkiye: <b>%12</b> — büyüme trendi güçlü</p></div>
+  </div>
+  <div class="icard"><h3>💰 Fiyatlandırma Önerisi</h3>
+    <div class="ii"><div class="dot"></div><p>Schneider/Siemens'in <b>%60-70'i</b> hedeflenmeli</p></div>
+    <div class="ii"><div class="dot"></div><p>Çin'den <b>%15-20 premium</b> — kalite gerekçesiyle</p></div>
+    <div class="ii"><div class="dot"></div><p>CIF Lagos fiyatlaması — navlun dahil teklif</p></div>
+  </div>
+  <div class="icard"><h3>🚢 Lojistik Bilgisi</h3>
+    <div class="ii"><div class="dot"></div><p>Ana liman: <b>Apapa Port, Lagos</b></p></div>
+    <div class="ii"><div class="dot"></div><p>İzmir/Mersin → Lagos: ~18-22 gün transit</p></div>
+    <div class="ii"><div class="dot"></div><p>SON belgesi gerekli | Form M: ithalatçı alır</p></div>
+  </div>
+</div>
+
+<script>
+let tradeCharts = {};
+
+async function loadData() {
+  const res = await fetch('veriler.json?_=' + Date.now());
+  const json = await res.json();
+  renderTrade(json.panel);
+}
+
+function renderTrade(data) {
+  const s = data.istatistikler;
+  const g = data.grafikler;
+  
+  document.getElementById('tradeStats').innerHTML = `
+    <div class="stat-card red"><div class="lbl">HS 8504 Transformatör</div><div class="val">$${s.hs8504_ithalat}M</div></div>
+    <div class="stat-card blue"><div class="lbl">HS 8537 Pano/Panel</div><div class="val">$${s.hs8537_ithalat}M</div></div>
+    <div class="stat-card green"><div class="lbl">Güç Trafosu (CAGR)</div><div class="val">+${s.guc_trafosu_buyume}%</div><div class="sub">2020-2024 Yıllık Ortalama</div></div>
+    <div class="stat-card gold"><div class="lbl">Türkiye Payı</div><div class="val">%${s.turkiye_payi}</div><div class="sub">3. büyük ihracatçı</div></div>`;
+  
+  document.getElementById('urunListesi').innerHTML = `
+    <tr><td>Monoblok Beton Köşk</td><td>8537.20</td><td>$${s.hs8537_ithalat}M</td><td>%5 + KDV %7.5</td><td>Çin, Hindistan, AB</td></tr>
+    <tr><td>Metal Muhafazalı Modüler Hücre</td><td>8537.10</td><td>$${s.hs8537_ithalat}M</td><td>%5 + KDV %7.5</td><td>Schneider, Siemens</td></tr>
+    <tr><td>SF6 Gazlı Kesici</td><td>8536.50</td><td>$${s.hs8537_ithalat}M</td><td>%5 + KDV %7.5</td><td>ABB, Siemens, Çin</td></tr>`;
+  
+  updateCharts(g);
+}
+
+function updateCharts(g) {
+  if (tradeCharts.cGrowth) tradeCharts.cGrowth.destroy();
+  if (tradeCharts.cGrowthBar) tradeCharts.cGrowthBar.destroy();
+  
+  tradeCharts.cGrowth = new Chart(document.getElementById('cGrowth'), {
+    type:'bar',
+    data:{labels:Object.keys(g.guc_trafosu_shipman), datasets:[{label:'Şipman Sayısı', data:Object.values(g.guc_trafosu_shipman), backgroundColor:['#2980b9','#e74c3c']}]},
+    options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}}
+  });
+  
+  tradeCharts.cGrowthBar = new Chart(document.getElementById('cGrowthBar'), {
+    type:'bar',
+    data:{labels:Object.keys(g.buyume_oranlari), datasets:[{label:'Büyüme Oranı (%)', data:Object.values(g.buyume_oranlari), backgroundColor:['#2980b9','#27ae60','#e74c3c','#f0b429']}]},
+    options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}}
+  });
+}
+
+loadData();
+</script>

@@ -1,0 +1,42 @@
+<div class="sec">Filtrelenebilir Lead Listesi</div>
+<div style="display:flex;gap:10px;margin-bottom:20px;">
+  <select id="fType"><option value="">Tüm Tipler</option><option value="Kamu">Kamu</option><option value="DisCo">DisCo</option><option value="EPC">EPC</option><option value="Tedarikçi">Tedarikçi</option><option value="Sanayi">Sanayi</option></select>
+  <select id="fCity"><option value="">Tüm Şehirler</option><option value="Lagos">Lagos</option><option value="Abuja">Abuja</option><option value="İbadan">İbadan</option></select>
+  <select id="fPri"><option value="0">Tüm Öncelikler</option><option value="5">★★★★★ Sadece</option><option value="4">★★★★ ve üstü</option></select>
+  <span id="lCount"></span>
+</div>
+<div class="tcard">
+  <table>
+    <thead><tr><th>Kurum / Firma</th><th>Tip</th><th>Şehir</th><th>E-posta</th><th>Web</th><th>Öncelik</th></tr></thead>
+    <tbody id="leadsT"></tbody>
+  </table>
+</div>
+
+<script>
+let leadsData = [];
+
+async function loadData() {
+  const res = await fetch('veriler.json?_=' + Date.now());
+  const json = await res.json();
+  leadsData = json.panel.hedef_firmalar;
+  renderLeads();
+}
+
+function renderLeads() {
+  const type = document.getElementById('fType').value;
+  const city = document.getElementById('fCity').value;
+  const pri = parseInt(document.getElementById('fPri').value) || 0;
+  const filtered = leadsData.filter(l => (!type || l.tip === type) && (!city || l.sehir === city) && l.oncelik >= pri);
+  document.getElementById('lCount').textContent = filtered.length + ' lead gösteriliyor';
+  const tipClass = { 'Kamu':'bp-red', 'DisCo':'bp-blue', 'EPC':'bp-purple', 'Tedarikçi':'bp-green', 'Sanayi':'bp-gold' };
+  document.getElementById('leadsT').innerHTML = filtered.map(l => `
+    <tr><td>${l.isim}</td><td><span class="bp ${tipClass[l.tip]}">${l.tip}</span></td><td>📍 ${l.sehir}</td><td><a href="mailto:${l.email}" class="lnk">${l.email}</a></td><td><a href="https://${l.web}" class="lnk" target="_blank">${l.web}</a></td><td class="star">${'★'.repeat(l.oncelik)}${'☆'.repeat(5-l.oncelik)}</td></tr>
+  `).join('');
+}
+
+document.getElementById('fType').addEventListener('change', renderLeads);
+document.getElementById('fCity').addEventListener('change', renderLeads);
+document.getElementById('fPri').addEventListener('change', renderLeads);
+
+loadData();
+</script>

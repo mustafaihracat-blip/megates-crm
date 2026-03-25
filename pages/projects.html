@@ -1,0 +1,46 @@
+<div class="stat-grid" id="projectStats"></div>
+<div class="sec">Proje Detayları</div>
+<div class="tcard">
+  <table>
+    <thead><tr><th>Proje</th><th>Fon</th><th>Tutar</th><th>Durum</th></tr></thead>
+    <tbody id="projeListesi"></tbody>
+  </table>
+</div>
+<div class="irow">
+  <div class="icard"><h3>🏗️ TCN Son Alımları</h3>
+    <div class="ii"><div class="dot"></div><p>10 adet <b>60MVA 132/33kV</b> trafo</p></div>
+    <div class="ii"><div class="dot"></div><p>5 adet <b>150MVA 330/132kV</b> trafo</p></div>
+    <div class="ii"><div class="dot"></div><p><b>1.570 MVA</b> trafo kapasitesi upgradi (CBN)</p></div>
+  </div>
+  <div class="icard"><h3>📋 İhaleye Giriş Yolu</h3>
+    <div class="ii"><div class="dot"></div><p>TCN: <a href="https://tcn.org.ng" class="lnk" target="_blank">tcn.org.ng</a> → Tenders</p></div>
+    <div class="ii"><div class="dot"></div><p>WB ihaleleri: <a href="https://projects.worldbank.org" class="lnk" target="_blank">projects.worldbank.org</a></p></div>
+  </div>
+  <div class="icard"><h3>💡 Stratejik Not</h3>
+    <div class="ii"><div class="dot"></div><p>WB projelerinde ihale <b>uluslararası rekabete açık</b></p></div>
+    <div class="ii"><div class="dot"></div><p>Önerilen ortak: <b>Elektrint Nigeria</b></p></div>
+  </div>
+</div>
+
+<script>
+async function loadData() {
+  const res = await fetch('veriler.json?_=' + Date.now());
+  const json = await res.json();
+  renderProjects(json.panel);
+}
+
+function renderProjects(data) {
+  const s = data.istatistikler;
+  document.getElementById('projectStats').innerHTML = `
+    <div class="stat-card blue"><div class="lbl">NETAP</div><div class="val">$486M</div></div>
+    <div class="stat-card green"><div class="lbl">DARES</div><div class="val">$750M</div></div>
+    <div class="stat-card red"><div class="lbl">North Core</div><div class="val">$570M</div></div>
+    <div class="stat-card gold"><div class="lbl">Toplam Fon</div><div class="val">$${s.wb_aktif_fon}M</div></div>`;
+  
+  document.getElementById('projeListesi').innerHTML = data.aktif_projeler.map(p => `
+    <tr><td>${p.proje}</td><td>${p.fon}</td><td>${p.tutar}</td><td><span class="bp bp-green">${p.durum}</span></td></tr>
+  `).join('');
+}
+
+loadData();
+</script>

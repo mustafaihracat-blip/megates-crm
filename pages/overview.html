@@ -1,0 +1,84 @@
+<div class="stat-grid" id="statsOverview"></div>
+<div class="charts-row">
+  <div class="chart-card">
+    <h3>HS Koduna Göre Nijerya Elektrik Ekipmanı İthalatı (2023)</h3>
+    <div class="src">📌 UN Comtrade / TrendEconomy.com</div>
+    <div class="chart-wrap"><canvas id="cImport"></canvas></div>
+  </div>
+  <div class="chart-card">
+    <h3>Güç Trafosu — Ülke Payları (Nigeria, 2024)</h3>
+    <div class="src">📌 Volza Global Trade Data</div>
+    <div class="chart-wrap"><canvas id="cCountry"></canvas></div>
+  </div>
+</div>
+<div class="sec">Pazar Özeti (Güncel Veriler - Nisan 2025)</div>
+<div class="irow" id="ozetCards"></div>
+<div class="sec">En Öncelikli Hedefler</div>
+<div class="tcard">
+  <div class="src">📌 TCN, World Bank, NERC lisans listesi</div>
+  <table>
+    <thead><tr><th>#</th><th>Kurum / Firma</th><th>Tür</th><th>Öncelik</th></tr></thead>
+    <tbody id="hedefListesi"></tbody>
+  </table>
+</div>
+
+<script>
+let overviewCharts = {};
+
+async function loadData() {
+  const res = await fetch('veriler.json?_=' + Date.now());
+  const json = await res.json();
+  renderOverview(json.panel);
+}
+
+function renderOverview(data) {
+  const s = data.istatistikler;
+  document.getElementById('statsOverview').innerHTML = `
+    <div class="stat-card red"><div class="lbl">HS 8504 İthalat (2023)</div><div class="val">$${s.hs8504_ithalat}M</div><div class="src">📌 UN Comtrade</div><div class="ico">📦</div></div>
+    <div class="stat-card blue"><div class="lbl">WB Aktif Enerji Fonu</div><div class="val">$${s.wb_aktif_fon}M</div><div class="src">📌 World Bank</div><div class="ico">💰</div></div>
+    <div class="stat-card green"><div class="lbl">TCN Aktif Projesi</div><div class="val">${s.tcn_aktif_proje}</div><div class="src">📌 TCN</div><div class="ico">🔌</div></div>
+    <div class="stat-card gold"><div class="lbl">HS 8537 Pano İthalatı</div><div class="val">$${s.hs8537_ithalat}M</div><div class="src">📌 UN Comtrade</div><div class="ico">🏗️</div></div>`;
+  
+  document.getElementById('hedefListesi').innerHTML = data.hedef_firmalar.slice(0,10).map((f,i) => `
+    <tr><td>${i+1}</td><td>${f.isim}</td><td><span class="bp ${f.tip==='Kamu'?'bp-red':f.tip==='DisCo'?'bp-blue':'bp-purple'}">${f.tip}</span></td><td class="star">${'★'.repeat(f.oncelik)}${'☆'.repeat(5-f.oncelik)}</td></tr>
+  `).join('');
+  
+  document.getElementById('ozetCards').innerHTML = `
+    <div class="icard"><h3>🇳🇬 Nijerya Rakamları</h3>
+      <div class="ii"><div class="dot"></div><p>HS 8504 trafo ithalatı: <b>$${s.hs8504_ithalat}M</b></p></div>
+      <div class="ii"><div class="dot"></div><p>HS 8537 pano ithalatı: <b>$${s.hs8537_ithalat}M</b></p></div>
+      <div class="ii"><div class="dot" style="background:#27ae60"></div><p>Güç trafosu CAGR: <b>%${s.guc_trafosu_buyume}</b></p></div>
+      <div class="ii"><div class="dot" style="background:#e74c3c"></div><p>Erişim oranı: <b>%${s.erişim_orani}</b> — <b>${s.erişimsiz_nufus}M kişi</b> erişimsiz</p></div>
+    </div>
+    <div class="icard"><h3>💡 Türkiye Fırsatı</h3>
+      <div class="ii"><div class="dot" style="background:#27ae60"></div><p>Türkiye payı: <b>%${s.turkiye_payi}</b> — 3. sırada</p></div>
+      <div class="ii"><div class="dot" style="background:#27ae60"></div><p>DARES: <b>17.5M kişi</b> için <b>1350 mini-grid</b></p></div>
+    </div>
+    <div class="icard"><h3>⚡ WB Aktif Projeler</h3>
+      <div class="ii"><div class="dot"></div><p><b>NETAP:</b> $486M</p></div>
+      <div class="ii"><div class="dot"></div><p><b>DARES:</b> $750M</p></div>
+      <div class="ii"><div class="dot"></div><p><b>North Core:</b> $570M</p></div>
+    </div>`;
+  
+  updateCharts(data.grafikler);
+}
+
+function updateCharts(g) {
+  if (overviewCharts.cImport) overviewCharts.cImport.destroy();
+  if (overviewCharts.cCountry) overviewCharts.cCountry.destroy();
+  
+  overviewCharts.cImport = new Chart(document.getElementById('cImport'), {
+    type:'doughnut',
+    data:{labels:Object.keys(g.hs_ithalat), datasets:[{data:Object.values(g.hs_ithalat), backgroundColor:['#e74c3c','#2980b9','#f0b429','#27ae60','#4a6d8c']}]},
+    options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'right', labels:{color:'#aac8e0'}}}}
+  });
+  
+  overviewCharts.cCountry = new Chart(document.getElementById('cCountry'), {
+    type:'doughnut',
+    data:{labels:Object.keys(g.ulke_paylari), datasets:[{data:Object.values(g.ulke_paylari), backgroundColor:['#e74c3c','#2980b9','#f0b429','#4a6d8c']}]},
+    options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'right', labels:{color:'#aac8e0'}}}}
+  });
+}
+
+loadData();
+</script>

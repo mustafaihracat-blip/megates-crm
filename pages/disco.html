@@ -1,0 +1,38 @@
+<div class="sec">12 DisCo — Tam İletişim & Tedarikçi Bilgisi</div>
+<div class="tcard">
+  <table>
+    <thead><tr><th>DisCo</th><th>Bölge</th><th>Müşteri</th><th>E-posta</th></tr></thead>
+    <tbody id="discoListesi"></tbody>
+  </table>
+</div>
+<div class="irow">
+  <div class="icard"><h3>📋 Kayıt İçin Belgeler</h3>
+    <div class="ii"><div class="dot"></div><p>ISO 9001, IEC 62271 / IEC 60076</p></div>
+    <div class="ii"><div class="dot"></div><p>Banka referans mektubu, DUNS no (Ikeja için)</p></div>
+  </div>
+  <div class="icard"><h3>🎯 Öncelik Sırası</h3>
+    <div class="ii"><div class="dot" style="background:#e74c3c"></div><p><b>1. Ikeja Electric</b> — VMS sistemi var</p></div>
+    <div class="ii"><div class="dot" style="background:#e74c3c"></div><p><b>2. AEDC</b> — SCM portalı var</p></div>
+    <div class="ii"><div class="dot" style="background:#f0b429"></div><p><b>3. IBEDC</b> — en fazla müşteri (2.69M)</p></div>
+  </div>
+  <div class="icard"><h3>⚡ TCN Ana Bağlantı</h3>
+    <div class="ii"><div class="dot"></div><p><a href="https://tcn.org.ng" class="lnk" target="_blank">tcn.org.ng</a> → Tenders</p></div>
+    <div class="ii"><div class="dot"></div><p>145 aktif proje — sürekli ekipman alımı</p></div>
+  </div>
+</div>
+
+<script>
+async function loadData() {
+  const res = await fetch('veriler.json?_=' + Date.now());
+  const json = await res.json();
+  renderDisco(json.panel);
+}
+
+function renderDisco(data) {
+  document.getElementById('discoListesi').innerHTML = data.disco_listesi.map(d => `
+    <tr><td><b>${d.isim}</b></td><td>${d.bolge}</td><td>${d.musteri}</td><td><a href="mailto:${d.email}" class="lnk">${d.email}</a></td></tr>
+  `).join('');
+}
+
+loadData();
+</script>

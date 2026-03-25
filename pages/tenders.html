@@ -1,0 +1,40 @@
+<div class="sec">Aktif İhale Takip Kaynakları</div>
+<div class="twocol">
+  <div class="tcard">
+    <h3>📡 İhale Takip Siteleri</h3>
+    <table>
+      <thead><tr><th>Site</th><th>Açıklama</th><th>Durum</th></tr></thead>
+      <tbody id="ihaleKaynaklari"></tbody>
+    </table>
+  </div>
+  <div class="tcard">
+    <h3>📬 DisCo Tedarikçi Portalları</h3>
+    <table>
+      <thead><tr><th>DisCo</th><th>Portal</th></tr></thead>
+      <tbody id="discoPortallari"></tbody>
+    </table>
+  </div>
+</div>
+<div class="sec">Güncel İhale Örnekleri (2024–2025)</div>
+<div class="tc"><div class="tt">TCN — Substation Ekipmanı Tedariki</div><div class="tm"><span>🏛️ TCN / World Bank</span><span>💰 WB IDA $486M</span></div></div>
+<div class="tc"><div class="tt">DARES — Dağıtım Ekipmanı Tedariki</div><div class="tm"><span>🏛️ REA / World Bank</span><span>💰 $750M</span></div></div>
+
+<script>
+async function loadData() {
+  const res = await fetch('veriler.json?_=' + Date.now());
+  const json = await res.json();
+  renderTenders(json.panel);
+}
+
+function renderTenders(data) {
+  document.getElementById('ihaleKaynaklari').innerHTML = data.ihale_kaynaklari.map(k => `
+    <tr><td><a href="https://${k.site}" class="lnk" target="_blank">${k.site}</a></td><td>${k.aciklama}</td><td><span class="bp ${k.durum==='Ücretsiz'?'bp-green':'bp-red'}">${k.durum}</span></td></tr>
+  `).join('');
+  
+  document.getElementById('discoPortallari').innerHTML = data.disco_listesi.map(d => `
+    <tr><td>${d.isim}</td><td><a href="${d.portal}" class="lnk" target="_blank">Portal ↗</a></td></tr>
+  `).join('');
+}
+
+loadData();
+</script>
