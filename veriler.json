@@ -1,0 +1,79 @@
+{
+  "panel": {
+    "istatistikler": {
+      "hs8504_ithalat": 245,
+      "hs8537_ithalat": 87,
+      "wb_aktif_fon": 1806,
+      "tcn_aktif_proje": 145,
+      "turkiye_payi": 12,
+      "guc_trafosu_buyume": 18,
+      "erişim_orani": 60,
+      "erişimsiz_nufus": 85
+    },
+    "grafikler": {
+      "hs_ithalat": {
+        "HS 8504 Trafo": 245,
+        "HS 8537 Pano": 87,
+        "HS 8544 Kablo": 312,
+        "HS 8536 Sigorta": 54,
+        "Diğer": 98
+      },
+      "ulke_paylari": {
+        "Çin": 51,
+        "Almanya": 12,
+        "Türkiye": 12,
+        "Diğer": 25
+      },
+      "guc_trafosu_shipman": {
+        "2020": 210,
+        "2024": 410
+      },
+      "buyume_oranlari": {
+        "HS 8504": 18,
+        "HS 8537": 22,
+        "HS 8544": 14,
+        "HS 8536": 9
+      }
+    },
+    "disco_listesi": [
+      { "isim": "Ikeja Electric", "bolge": "Lagos", "musteri": "2.1M", "email": "procurement@ikejaelectric.com", "portal": "https://ikejaelectric.com" },
+      { "isim": "AEDC", "bolge": "Abuja", "musteri": "1.1M", "email": "procurement@aedcplc.com", "portal": "https://aedcplc.com" },
+      { "isim": "IBEDC", "bolge": "İbadan", "musteri": "2.69M", "email": "info@ibedc.com", "portal": "https://ibedc.com" },
+      { "isim": "EKEDC", "bolge": "Lagos (Eko)", "musteri": "0.5M", "email": "info@ekedp.com", "portal": "https://ekedp.com" },
+      { "isim": "EEDC", "bolge": "Enugu", "musteri": "0.75M", "email": "info@enugudisco.com", "portal": "https://enugudisco.com" },
+      { "isim": "PHED", "bolge": "Port Harcourt", "musteri": "0.8M", "email": "info@phed.com.ng", "portal": "https://phed.com.ng" },
+      { "isim": "BEDC", "bolge": "Benin", "musteri": "0.9M", "email": "info@bedcpower.com", "portal": "https://bedcpower.com" },
+      { "isim": "KEDC", "bolge": "Kano", "musteri": "0.6M", "email": "info@kanodisco.com", "portal": "https://kanodisco.com" },
+      { "isim": "YEDC", "bolge": "Yola", "musteri": "0.3M", "email": "info@yolaelectric.com", "portal": "https://yolaelectric.com" },
+      { "isim": "KAEDCO", "bolge": "Kaduna", "musteri": "0.55M", "email": "info@kaedco.com.ng", "portal": "https://kaedco.com.ng" },
+      { "isim": "JEDC", "bolge": "Jos", "musteri": "0.4M", "email": "info@joselectric.com", "portal": "https://joselectric.com" },
+      { "isim": "AEDC Abuja", "bolge": "Abuja FCT", "musteri": "0.7M", "email": "scm@aedcplc.com", "portal": "https://aedcplc.com" }
+    ],
+    "hedef_firmalar": [
+      { "isim": "TCN (Transmission Company of Nigeria)", "tip": "Kamu", "sehir": "Abuja", "email": "info@tcn.org.ng", "web": "tcn.org.ng", "oncelik": 5 },
+      { "isim": "Ikeja Electric", "tip": "DisCo", "sehir": "Lagos", "email": "procurement@ikejaelectric.com", "web": "ikejaelectric.com", "oncelik": 5 },
+      { "isim": "AEDC", "tip": "DisCo", "sehir": "Abuja", "email": "procurement@aedcplc.com", "web": "aedcplc.com", "oncelik": 5 },
+      { "isim": "REA (Rural Electrification Agency)", "tip": "Kamu", "sehir": "Abuja", "email": "info@rea.gov.ng", "web": "rea.gov.ng", "oncelik": 5 },
+      { "isim": "Julius Berger Nigeria", "tip": "EPC", "sehir": "Abuja", "email": "info@julius-berger.com", "web": "julius-berger.com", "oncelik": 4 },
+      { "isim": "IBEDC", "tip": "DisCo", "sehir": "İbadan", "email": "info@ibedc.com", "web": "ibedc.com", "oncelik": 4 },
+      { "isim": "Elektrint Nigeria", "tip": "EPC", "sehir": "Lagos", "email": "info@elektrint.com", "web": "elektrint.com", "oncelik": 4 },
+      { "isim": "Dangote Industries", "tip": "Sanayi", "sehir": "Lagos", "email": "info@dangote.com", "web": "dangote.com", "oncelik": 4 },
+      { "isim": "Nexans Nigeria", "tip": "Tedarikçi", "sehir": "Lagos", "email": "info@nexans.com.ng", "web": "nexans.com.ng", "oncelik": 3 },
+      { "isim": "Innoson Vehicle Manufacturing", "tip": "Sanayi", "sehir": "Abuja", "email": "info@innosonvehicles.com", "web": "innosonvehicles.com", "oncelik": 3 },
+      { "isim": "PHED", "tip": "DisCo", "sehir": "Lagos", "email": "info@phed.com.ng", "web": "phed.com.ng", "oncelik": 3 },
+      { "isim": "Eko Electricity Distribution", "tip": "DisCo", "sehir": "Lagos", "email": "info@ekedp.com", "web": "ekedp.com", "oncelik": 4 }
+    ],
+    "aktif_projeler": [
+      { "proje": "NETAP — Nigeria Electrification Transition", "fon": "World Bank IDA", "tutar": "$486M", "durum": "Aktif" },
+      { "proje": "DARES — Distributed Access through Renewable Energy", "fon": "World Bank", "tutar": "$750M", "durum": "Aktif" },
+      { "proje": "North Core Interconnection", "fon": "AfDB / World Bank", "tutar": "$570M", "durum": "Aktif" },
+      { "proje": "TCN Metering & Grid Expansion", "fon": "CBN / FGN", "tutar": "$200M", "durum": "Aktif" }
+    ],
+    "ihale_kaynaklari": [
+      { "site": "tcn.org.ng", "aciklama": "TCN resmi ihale ilanları", "durum": "Ücretsiz" },
+      { "site": "projects.worldbank.org", "aciklama": "World Bank proje ihaleleri", "durum": "Ücretsiz" },
+      { "site": "dgmarket.com", "aciklama": "Uluslararası ihale takibi", "durum": "Ücretli" },
+      { "site": "tендери.net", "aciklama": "Afrika ihale veritabanı", "durum": "Ücretli" }
+    ]
+  }
+}
