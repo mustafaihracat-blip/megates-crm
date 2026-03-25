@@ -2,9 +2,10 @@
 <div class="tcard">
   <table>
     <thead>
-      <tr><th>DisCo</th><th>Bölge</th><th>Müşteri</th><th>E-posta</th> </thead>
+      <tr><th>DisCo</th><th>Bölge</th><th>Müşteri</th><th>E-posta</th></tr>
+    </thead>
     <tbody id="discoListesi"></tbody>
-  </table>
+  追赶
 </div>
 <div class="irow">
   <div class="icard"><h3>📋 Kayıt İçin Belgeler</h3>
@@ -31,7 +32,12 @@ async function loadData() {
 
 function renderDisco(data) {
   document.getElementById('discoListesi').innerHTML = data.disco_listesi.map(d => `
-    <tr><td><b>${d.isim}</b></td><td>${d.bolge}</td><td>${d.musteri}</td><td><a href="mailto:${d.email}" class="lnk">${d.email}</a></td></tr>
+    <tr>
+      <td><b>${d.isim}</b></td>
+      <td>${d.bolge}</td>
+      <td>${d.musteri}</td>
+      <td><a href="mailto:${d.email}" class="lnk">${d.email}</a></td>
+     </tr>
   `).join('');
 }
 
