@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Megates Enerji - Giriş</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f1923 0%, #1a2a3a 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-container {
+            background: #0a1a2a;
+            border: 1px solid #1e3a5f;
+            border-radius: 24px;
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .logo h1 {
+            color: #f0b429;
+            font-size: 28px;
+            letter-spacing: 1px;
+        }
+        .logo p {
+            color: #7a9bb5;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        .input-group label {
+            display: block;
+            color: #aac8e0;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 12px 16px;
+            background: #0f1923;
+            border: 1px solid #1e3a5f;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 14px;
+        }
+        .input-group input:focus {
+            outline: none;
+            border-color: #f0b429;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #f0b429;
+            border: none;
+            border-radius: 12px;
+            color: #0f1923;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #d4a020;
+        }
+        .error {
+            background: rgba(231,76,60,0.2);
+            border: 1px solid #e74c3c;
+            border-radius: 10px;
+            padding: 12px;
+            margin-top: 20px;
+            text-align: center;
+            color: #e74c3c;
+            font-size: 13px;
+            display: none;
+        }
+        .info {
+            text-align: center;
+            margin-top: 24px;
+            color: #4a6d8c;
+            font-size: 12px;
+        }
+        .info span {
+            display: inline-block;
+            background: #1e3a5f;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin: 4px;
+        }
+    </style>
+</head>
+<body>
+<div class="login-container">
+    <div class="logo">
+        <h1>MEGATES</h1>
+        <p>Nijerya Pazar Paneli</p>
+    </div>
+    <div class="input-group">
+        <label>🔒 Şifre</label>
+        <input type="password" id="password" placeholder="Şifrenizi girin" onkeypress="if(event.key==='Enter') girisYap()" autofocus>
+    </div>
+    <button onclick="girisYap()">Giriş Yap</button>
+    <div class="error" id="errorMsg"></div>
+    <div class="info">
+        🔑 Giriş şifreleri:<br>
+        <span>Müşteri: megates</span>
+        <span>Yönetici: mustafa hoca</span>
+    </div>
+</div>
+<script>
+function girisYap() {
+    const password = document.getElementById('password').value;
+    if (password === 'megates') {
+        localStorage.setItem('megates_user', 'customer');
+        localStorage.setItem('megates_username', 'Müşteri');
+        window.location.href = 'index.html';
+    } 
+    else if (password === 'mustafa hoca') {
+        localStorage.setItem('megates_user', 'admin');
+        localStorage.setItem('megates_username', 'Admin');
+        window.location.href = 'index.html';
+    }
+    else {
+        const errorDiv = document.getElementById('errorMsg');
+        errorDiv.style.display = 'block';
+        errorDiv.textContent = '❌ Hatalı şifre!';
+        setTimeout(() => {
+            errorDiv.style.display = 'none';
+            document.getElementById('password').value = '';
+        }, 2000);
+    }
+}
+</script>
+</body>
+</html>

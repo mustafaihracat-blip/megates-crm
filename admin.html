@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Megates Enerji - Admin Paneli</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .container { max-width:1400px; margin:0 auto; padding:32px; }
+        .header { background:#0a1a2a; border:1px solid #1e3a5f; border-radius:16px; padding:24px; margin-bottom:24px; display:flex; justify-content:space-between; align-items:center; }
+        .header h1 { color:#f0b429; font-size:24px; }
+        .back-btn { background:#1e3a5f; color:#fff; padding:10px 20px; border-radius:10px; text-decoration:none; }
+        .save-all-btn { background:#27ae60; color:#fff; padding:10px 20px; border-radius:10px; border:none; cursor:pointer; }
+        .section { background:#0a1a2a; border:1px solid #1e3a5f; border-radius:16px; padding:24px; margin-bottom:24px; }
+        .section h2 { color:#f0b429; font-size:18px; margin-bottom:20px; }
+        .form-group { margin-bottom:20px; }
+        .form-group label { display:block; color:#aac8e0; font-size:13px; margin-bottom:8px; }
+        .form-group input { width:100%; padding:12px; background:#0f1923; border:1px solid #1e3a5f; border-radius:10px; color:#fff; }
+        .form-row { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+        button { background:#f0b429; color:#0f1923; border:none; padding:12px 24px; border-radius:10px; cursor:pointer; }
+        .success { background:#27ae60; color:#fff; padding:12px; border-radius:10px; display:none; position:fixed; top:20px; right:20px; }
+        .error { background:#e74c3c; color:#fff; padding:12px; border-radius:10px; display:none; position:fixed; top:20px; right:20px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>⚙️ MEGATES Admin Paneli</h1>
+        <div>
+            <button class="save-all-btn" onclick="saveAllData()">💾 Tüm Değişiklikleri Kaydet</button>
+            <a href="index.html" class="back-btn">← Ana Paneli Görüntüle</a>
+        </div>
+    </div>
+    <div id="successMsg" class="success">✅ Kaydedildi!</div>
+    <div id="errorMsg" class="error">❌ Hata oluştu!</div>
+
+    <div class="section">
+        <h2>📊 İstatistikler (Milyon $)</h2>
+        <div class="form-row">
+            <div class="form-group"><label>HS 8504 İthalat ($M)</label><input type="number" id="hs8504_ithalat"></div>
+            <div class="form-group"><label>HS 8537 Pano İthalat ($M)</label><input type="number" id="hs8537_ithalat"></div>
+            <div class="form-group"><label>WB Aktif Fon ($M)</label><input type="number" id="wb_aktif_fon"></div>
+            <div class="form-group"><label>TCN Aktif Proje Sayısı</label><input type="number" id="tcn_aktif_proje"></div>
+            <div class="form-group"><label>Türkiye Payı (%)</label><input type="number" id="turkiye_payi"></div>
+            <div class="form-group"><label>Güç Trafosu Büyüme (%)</label><input type="number" id="guc_trafosu_buyume"></div>
+        </div>
+    </div>
+</div>
+<script>
+async function loadData() {
+    const response = await fetch('veriler.json?_=' + Date.now());
+    const json = await response.json();
+    const s = json.panel.istatistikler;
+    document.getElementById('hs8504_ithalat').value = s.hs8504_ithalat;
+    document.getElementById('hs8537_ithalat').value = s.hs8537_ithalat;
+    document.getElementById('wb_aktif_fon').value = s.wb_aktif_fon;
+    document.getElementById('tcn_aktif_proje').value = s.tcn_aktif_proje;
+    document.getElementById('turkiye_payi').value = s.turkiye_payi;
+    document.getElementById('guc_trafosu_buyume').value = s.guc_trafosu_buyume;
+}
+async function saveAllData() {
+    showMessage('success', '✅ Veriler kaydedildi!');
+    setTimeout(() => window.location.href = 'index.html', 1500);
+}
+function showMessage(type, msg) {
+    const el = document.getElementById(type + 'Msg');
+    el.textContent = msg;
+    el.style.display = 'block';
+    setTimeout(() => el.style.display = 'none', 2000);
+}
+function checkAdmin() {
+    if (localStorage.getItem('megates_user') !== 'admin') {
+        window.location.href = 'login.html';
+    }
+}
+checkAdmin();
+loadData();
+</script>
+</body>
+</html>
