@@ -5,7 +5,7 @@
       <tr><th>DisCo</th><th>Bölge</th><th>Müşteri</th><th>E-posta</th></tr>
     </thead>
     <tbody id="discoListesi"></tbody>
-  追赶
+  </table>
 </div>
 <div class="irow">
   <div class="icard"><h3>📋 Kayıt İçin Belgeler</h3>
@@ -25,20 +25,38 @@
 
 <script>
 async function loadData() {
-  const res = await fetch('../veriler.json?_=' + Date.now());
-  const json = await res.json();
-  renderDisco(json.panel);
+  try {
+    console.log('Fetch başlıyor...');
+    const res = await fetch('../veriler.json?_=' + Date.now());
+    console.log('Fetch cevap:', res.status);
+    const json = await res.json();
+    console.log('JSON alındı:', json);
+    renderDisco(json.panel);
+  } catch(e) {
+    console.error('Hata:', e);
+  }
 }
 
 function renderDisco(data) {
-  document.getElementById('discoListesi').innerHTML = data.disco_listesi.map(d => `
+  console.log('renderDisco çalıştı, disco_listesi var mı?', data.disco_listesi);
+  const tbody = document.getElementById('discoListesi');
+  if (!tbody) {
+    console.error('discoListesi elementi bulunamadı!');
+    return;
+  }
+  if (!data.disco_listesi) {
+    console.error('disco_listesi verisi yok!');
+    return;
+  }
+  tbody.innerHTML = data.disco_listesi.map(d => `
     <tr>
       <td><b>${d.isim}</b></td>
       <td>${d.bolge}</td>
       <td>${d.musteri}</td>
       <td><a href="mailto:${d.email}" class="lnk">${d.email}</a></td>
-     </tr>
+    </tr>
   `).join('');
+  console.log('Tablo dolduruldu.');
 }
 
 loadData();
