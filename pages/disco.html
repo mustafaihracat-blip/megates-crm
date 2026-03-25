@@ -23,7 +23,7 @@
 
 <script>
 async function loadData() {
-  const res = await fetch('veriler.json?_=' + Date.now());
+  const res = await fetch('../veriler.json?_=' + Date.now());
   const json = await res.json();
   renderDisco(json.panel);
 }
